@@ -16,8 +16,7 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
 
-            $table->unsignedBigInteger('product_id')->index();
-            $table->foreign('product_id')->references('id')->on('products')->onDelete('restrict');
+            $table->foreignId('product_id')->constrained('products')->onDelete('restrict');
 
             $table->timestamps();
         });
