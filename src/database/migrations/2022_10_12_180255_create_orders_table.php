@@ -13,9 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('orders', function (Blueprint $table) {
-            $table->unsignedBigInteger('user_id')->after('id')->index();
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('restrict');
+        Schema::create('orders', function (Blueprint $table) {
+            $table->id();
+
+            $table->foreignId('user_id')->constrained();
+
+            $table->timestamps();
         });
     }
 
@@ -26,9 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('orders', function (Blueprint $table) {
-            $table->dropForeign(['user_id']);
-            $table->dropColumn('user_id');
-        });
+        Schema::dropIfExists('orders');
     }
 };
