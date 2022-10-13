@@ -5,6 +5,9 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
+use App\Models\User;
+use App\Models\UserAddress;
+
 class UserSeeder extends Seeder
 {
     /**
@@ -14,11 +17,24 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        \App\Models\User::factory(10)->create();
+        // ====== #1 ====== //
+        $users = User::factory(10)->create();
 
-        \App\Models\User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        foreach ($users as $user) {
+            UserAddress::factory()->create([
+                'user_id' => $user->id
+            ]);
+        }
+
+        // User::factory()->count(10)->create([
+        //     'name' => 'Test User',
+        //     // 'email' => 'test@example.com',
+        // ]);
+
+        // ====== #2 ====== //
+        // UserAddress::factory(10)->create();
+
+        // ====== #3 ====== //
+        // User::factory(10)->has(UserAddress::factory()->count(3), 'addresses')->create();
     }
 }

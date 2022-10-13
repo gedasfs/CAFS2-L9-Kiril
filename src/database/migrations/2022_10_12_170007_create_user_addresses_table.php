@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('country', 100);
             $table->string('city', 100);
             $table->string('address');
-            $table->string('zip', 20);
+            $table->string('postcode', 20);
             $table->string('phone', 100);
 
             $table->text('note')->nullable();
