@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,12 +14,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 require __DIR__.'/auth.php';
+
+Route::get('/', [Controllers\Products\ProductController::class, 'index']);
+
+Route::prefix('/products')->name('products.')->group(function() {
+    Route::get('/create', [Controllers\Products\ProductController::class, 'create'])->name('create');
+    Route::get('/{product}/edit', [Controllers\Products\ProductController::class, 'edit'])->name('edit');
+    Route::get('/{product}/show', [Controllers\Products\ProductController::class, 'show'])->name('show');
+});
