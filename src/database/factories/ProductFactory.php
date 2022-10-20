@@ -24,7 +24,9 @@ class ProductFactory extends Factory
             'name' => fake()->words(3, true),
             'description' => fake()->text(200),
             'identifier' => fake()->ean13(),
-            'stock' => fake()->numberBetween(1, 10)
+            'stock' => fake()->numberBetween(1, 10),
+            'created_at' => fake()->dateTimeBetween('-1 day' ),
+            'price' => fake()->numberBetween(1, 300)
         ];
     }
 }

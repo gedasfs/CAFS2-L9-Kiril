@@ -7,6 +7,7 @@ use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvi
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
+use App\Models\Product;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -35,6 +36,11 @@ class RouteServiceProvider extends ServiceProvider
 
             Route::middleware('web')
                 ->group(base_path('routes/web.php'));
+        });
+
+        Route::bind('product', function ($value) {
+            // return Product::where('is_active', true)->findOrFail($value);
+            return Product::findOrFail($value);
         });
     }
 

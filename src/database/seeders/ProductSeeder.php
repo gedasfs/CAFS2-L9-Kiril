@@ -7,6 +7,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 
 use App\Models\Product;
+use App\Models\ProductCategory;
 
 class ProductSeeder extends Seeder
 {
@@ -17,11 +18,10 @@ class ProductSeeder extends Seeder
      */
     public function run()
     {
-        // Product::factory(30)->state(new Sequence(
-        //     ['is_active' => true],
-        //     ['is_active' => false],
-        // ))->create();
-        
-        Product::factory(30)->create();
+        $categories = ProductCategory::factory(5)->create();
+    
+        Product::factory(30) ->state(new Sequence(
+            fn ($sequence) => ['category_id' => $categories->random()],
+        ))->create();
     }
 }

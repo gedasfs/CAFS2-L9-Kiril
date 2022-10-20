@@ -20,10 +20,17 @@ Route::get('/dashboard', function () {
 
 require __DIR__.'/auth.php';
 
-Route::get('/', [Controllers\Products\ProductController::class, 'index']);
+Route::get('/', [Controllers\Products\ProductController::class, 'index'])->name('products.index');
 
 Route::prefix('/products')->name('products.')->group(function() {
     Route::get('/create', [Controllers\Products\ProductController::class, 'create'])->name('create');
+    Route::post('/store/v1', [Controllers\Products\ProductController::class, 'storeV1'])->name('store.v1');
+    Route::post('/store/v2', [Controllers\Products\ProductController::class, 'storeV2'])->name('store.v2');
+    Route::post('/store/v3', [Controllers\Products\ProductController::class, 'storeV3'])->name('store.v3');
+    Route::post('/store/v4', [Controllers\Products\ProductController::class, 'storeV4'])->name('store.v4');
+    
     Route::get('/{product}/edit', [Controllers\Products\ProductController::class, 'edit'])->name('edit');
+    Route::post('/{product}/update', [Controllers\Products\ProductController::class, 'edit'])->name('edit');
+    
     Route::get('/{product}/show', [Controllers\Products\ProductController::class, 'show'])->name('show');
 });
