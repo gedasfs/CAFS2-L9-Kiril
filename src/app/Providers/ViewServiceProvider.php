@@ -25,7 +25,7 @@ class ViewServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        View::composer(['products.index', 'products.create', 'products.create'], function($view) {
+        View::composer(['products.index', 'products.create', 'products.edit'], function($view) {
             $categories = ProductCategory::get();
 
             $view->with('categories', $categories);

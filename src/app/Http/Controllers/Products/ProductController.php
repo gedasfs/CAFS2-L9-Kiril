@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\ProductCategory;
 use Illuminate\Support\Facades\DB;
+use App\Http\Requests\Products\StoreProductRequest;
+use App\Http\Requests\Products\UpdateProductRequest;
 
 class ProductController extends Controller
 {
@@ -126,6 +128,7 @@ class ProductController extends Controller
 
         $validated = $request->validate($rules);
 
+        // // https://en.wikipedia.org/wiki/Don%27t_repeat_yourself
         // $product = new Product($validated);
         // $product->is_active = true;
         // $product->save();
@@ -133,9 +136,23 @@ class ProductController extends Controller
         return $this->storeV3($request);
     }
 
+    public function storeV5(StoreProductRequest $request)
+    {
+        return $this->storeV3($request);
+    }
+
     public function edit(Product $product)
     {    
-        return view('products.edit');
+        return view('products.edit', compact('product'));
+    }
+
+    public function update(UpdateProductRequest $request, Product $product)
+    {    
+        $product->fill($request->validated());
+
+        $product->save();
+
+        return redirect()->route('products.show', $product->id);
     }
 
     public function show(Product $product)
