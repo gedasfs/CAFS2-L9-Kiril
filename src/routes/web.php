@@ -35,3 +35,8 @@ Route::prefix('/products')->name('products.')->group(function() {
     
     Route::get('/{product}/show', [Controllers\Products\ProductController::class, 'show'])->name('show');
 });
+
+Route::prefix('/orders')->name('orders.')->group(function() {
+      Route::get('/', [Controllers\Orders\OrderController::class, 'index'])->name('index');
+      Route::post('/save', [Controllers\Orders\OrderController::class, 'save'])->name('save');
+});
