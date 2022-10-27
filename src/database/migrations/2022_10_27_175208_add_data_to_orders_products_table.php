@@ -13,15 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('orders_products', function (Blueprint $table) {
-            // $table->id();
-
-            $table->foreignId('order_id')->constrained();
-            $table->foreignId('product_id')->constrained();
-
-            $table->unsignedBigInteger('count')->default(1);
-
-            // $table->timestamps();
+        Schema::table('orders_products', function (Blueprint $table) {
+            $table->json('data')->nullable()->after('count');
         });
     }
 
@@ -32,6 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('orders_products');
+        Schema::table('orders_products', function (Blueprint $table) {
+            $table->dropColumn('data');
+        });
     }
 };

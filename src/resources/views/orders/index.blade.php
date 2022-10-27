@@ -19,18 +19,20 @@
 		</thead>
 		<tbody>
 			@foreach($orders as $order)
-			<tr>
+			<tr data-id="{{ $order->id }}">
 				<td>{{ $order->id }}</td>
 				<td>{{ $order->user?->name }}</td>
 				<td>
 					<ul class="text-start">
-						{{-- @foreach($order->products as $product)
-						<li>{{ $product->name }} : {{ $product->pivot->quantity }}</li>
-						@endforeach --}}
+						@foreach($order->products as $product)
+						<li>{{ $product->name }} : {{ $product->pivot->count }}</li>
+						@endforeach
 					</ul>
 				</td>
 				<td>{{ $order->created_at }}</td>
-				<td></td>
+				<td>
+					<button class="btn btn-warning" data-route-edit="{{ route('orders.edit', $order->id) }}">Edit</button>
+				</td>
 			</tr>
 			@endforeach
 		</tbody>

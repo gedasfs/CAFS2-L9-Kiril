@@ -38,5 +38,7 @@ Route::prefix('/products')->name('products.')->group(function() {
 
 Route::prefix('/orders')->name('orders.')->group(function() {
       Route::get('/', [Controllers\Orders\OrderController::class, 'index'])->name('index');
-      Route::post('/save', [Controllers\Orders\OrderController::class, 'save'])->name('save');
+      Route::post('/v1/save', [Controllers\Orders\OrderController::class, 'saveV1'])->name('save.v1');
+      Route::post('/v2/save/{order?}', [Controllers\Orders\OrderController::class, 'saveV2'])->name('save.v2');
+      Route::get('/{order}/edit', [Controllers\Orders\OrderController::class, 'edit'])->name('edit');
 });

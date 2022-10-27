@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Order extends Model
 {
@@ -18,8 +19,10 @@ class Order extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function products()
+    // https://laravel.com/docs/9.x/eloquent-relationships#many-to-many
+    // https://laravel.com/docs/9.x/eloquent-relationships#retrieving-intermediate-table-columns
+    public function products(): BelongsToMany
     {
-        return [1,2,3];
+        return $this->belongsToMany(Product::class, 'orders_products')->withPivot('count');
     }
 }
