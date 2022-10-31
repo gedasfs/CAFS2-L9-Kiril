@@ -15,10 +15,22 @@
         <div class="container py-3">
             @include('partials.header')
             <main>
+                @auth
                 <div class="text-end mb-2">
                     <a href="{{ route('products.create') }}" class="btn btn-success">Create Product</a>
                     <a href="{{ route('orders.index') }}" class="btn btn-info">Orders</a>
+                    <form method="POST" action="{{ route('logout') }}" style="display: inline;">
+                        @csrf
+                        <button class="btn btn-danger">{{ __('Log Out') }}</button>
+                    </form>
                 </div>
+                @endauth
+                @guest
+                <div class="text-end mb-2">
+                    <a href="{{ route('login') }}" class="btn btn-secondary">Login</a>
+                    <a href="{{ route('register') }}" class="btn btn-secondary">Register</a>
+                </div>
+                @endguest
                 @yield('content')
             </main>
             @include('partials.footer')
