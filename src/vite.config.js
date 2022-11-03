@@ -15,6 +15,7 @@ export default defineConfig({
             input: [
                 'resources/sass/shop.scss',
                 'resources/js/shop/app.js',
+                'resources/js/shop-vue/app.js',
             ],
             refresh: true,
         }),

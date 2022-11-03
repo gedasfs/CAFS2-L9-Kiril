@@ -7,7 +7,9 @@
         @vite(['resources/sass/shop.scss', 'resources/js/shop-vue/app.js'])
         <title>{{ config('app.name') }}</title>
     </head>
-    <body>
-        <div id="shop"></div>
+    <body>    
+        <div id="shop">
+            
+        </div>
     </body>
 </html>
