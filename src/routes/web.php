@@ -16,10 +16,12 @@ use App\Http\Controllers;
 
 require __DIR__.'/auth.php';
 
-Route::get('/', [Controllers\Products\ProductController::class, 'index'])->name('products.index');
+Route::redirect('/', 'products');
 
 Route::prefix('/products')->name('products.')->group(function() {
-    Route::middleware('auth')->group(function() {
+    Route::get('/', [Controllers\Products\ProductController::class, 'index'])->name('index');
+
+    Route::middleware(['auth', 'verified'])->group(function() {
         Route::get('/create', [Controllers\Products\ProductController::class, 'create'])->name('create');
         Route::post('/store/v1', [Controllers\Products\ProductController::class, 'storeV1'])->name('store.v1');
         Route::post('/store/v2', [Controllers\Products\ProductController::class, 'storeV2'])->name('store.v2');
@@ -34,9 +36,11 @@ Route::prefix('/products')->name('products.')->group(function() {
     Route::get('/{product}/show', [Controllers\Products\ProductController::class, 'show'])->name('show');
 });
 
-Route::prefix('/orders')->middleware('auth')->name('orders.')->group(function() {
-      Route::get('/', [Controllers\Orders\OrderController::class, 'index'])->name('index');
-      Route::post('/v1/save', [Controllers\Orders\OrderController::class, 'saveV1'])->name('save.v1');
-      Route::post('/v2/save/{order?}', [Controllers\Orders\OrderController::class, 'saveV2'])->name('save.v2');
-      Route::get('/{order}/edit', [Controllers\Orders\OrderController::class, 'edit'])->name('edit');
+Route::prefix('/orders')->middleware(['auth', 'verified'])->name('orders.')->group(function() {
+    Route::get('/', [Controllers\Orders\OrderController::class, 'index'])->name('index');
+    Route::post('/v1/save', [Controllers\Orders\OrderController::class, 'saveV1'])->name('save.v1');
+    Route::post('/v2/save/{order?}', [Controllers\Orders\OrderController::class, 'saveV2'])->name('save.v2');
+    Route::get('/{order}/edit', [Controllers\Orders\OrderController::class, 'edit'])->name('edit');
 });
+
+Route::view('/spa', 'spa');

@@ -19,7 +19,7 @@ services:
     build: ./docker/php/
     working_dir: /var/www
     env_file:
-      - ./docker/mysql/.env
+      - ./.env
     volumes:
       - ./src:/var/www
     # tty: true
@@ -30,8 +30,14 @@ services:
     container_name: ca-l9-mariadb
     image: mariadb:10.9
     env_file:
-        - ./docker/mysql/.env
+        - ./.env
     volumes:
         - ./docker/mysql/data/mariadb:/var/lib/mysql
     ports:
         - 3307:3306
+
+  mailhog:
+    image: mailhog/mailhog:v1.0.1
+    ports:
+        - 8025:8025
+        - 1025:1025
