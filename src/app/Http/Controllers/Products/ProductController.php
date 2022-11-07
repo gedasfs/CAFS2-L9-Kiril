@@ -44,7 +44,8 @@ class ProductController extends Controller
         }
 
         $orderBy = $request->get('order_by');
-        $orderBy = array_key_exists($orderBy, self::ORDERING_VALUES) ? $orderBy : self::ORDERING_DEFAULT_VALUE;        $orderBy = explode(':', $orderBy);
+        $orderBy = array_key_exists($orderBy, self::ORDERING_VALUES) ? $orderBy : self::ORDERING_DEFAULT_VALUE;
+        $orderBy = explode(':', $orderBy);
 
         $orderByColumn = $orderBy[0];
         $orderByDirection = $orderBy[1] ?? 'desc';
