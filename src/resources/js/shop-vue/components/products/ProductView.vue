@@ -1,5 +1,5 @@
 <script setup>
-import FilterProducts from './partials/FilterProducts.vue';
+// import FilterProducts from './partials/FilterProducts.vue';
 
 import axios from 'axios';
 import { ref, reactive, onBeforeMount, watch } from 'vue';
@@ -35,7 +35,7 @@ onBeforeMount(async () => {
 });
 </script>
 <template>
-	<FilterProducts/>
+	<!-- <FilterProducts/> -->
 	<div v-if="products.length > 0" class="row row-cols-1 row-cols-md-3 mb-3 text-center">
 	    <div v-for="product in products" class="col">
 	        <div class="card mb-4 rounded-3 shadow-sm">
