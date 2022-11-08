@@ -9,50 +9,17 @@ use App\Models\ProductCategory;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\Products\StoreProductRequest;
 use App\Http\Requests\Products\UpdateProductRequest;
+use App\Services\ProductService;
 
 class ProductController extends Controller
 {
-    const ORDERING_VALUES = [
-        'created_at' => 'Newest first',
-        'name:asc'   => 'Name Accessing',
-        'name:desc'  => 'Name Descending',
-        'price:asc'  => 'Price Accessing',
-        'price:desc' => 'Price Descending',
-        'identifier:asc' => 'Identifier Accessing',
-        'identifier:desc' => 'Identifier Descending',
-    ];
-
-    const ORDERING_DEFAULT_VALUE = 'created_at';
+    function __construct(private ProductService $productService)
+    {
+    }
 
     public function index(Request $request)
     {
-        $productQuery = Product::query()->where('is_active', true);
-
-        $categoryId = $request->get('category_id');
-
-        if ($categoryId && is_numeric($categoryId)) {
-            $productQuery->where('category_id', $categoryId);
-        }
-
-        if ($request->has('search')) {
-            $likeValue = '%' . $request->get('search') . '%';
-
-            $productQuery->where(function($query) use($likeValue) {
-                $query->where('name', 'LIKE', $likeValue);
-                $query->orWhere('description', 'LIKE', $likeValue);
-            });
-        }
-
-        $orderBy = $request->get('order_by');
-        $orderBy = array_key_exists($orderBy, self::ORDERING_VALUES) ? $orderBy : self::ORDERING_DEFAULT_VALUE;
-        $orderBy = explode(':', $orderBy);
-
-        $orderByColumn = $orderBy[0];
-        $orderByDirection = $orderBy[1] ?? 'desc';
-
-        $productQuery->orderBy($orderByColumn, $orderByDirection);
-
-        $products = $productQuery->get();
+        $products = $this->productService->get($request->only('category_id', 'search', 'order_by'));
 
         // Categories moved to view composer
         // $categories = ProductCategory::get();
@@ -61,7 +28,7 @@ class ProductController extends Controller
         $view = view('products.index', compact('products'));
 
         $view->with('categoryId', $request->get('category_id'));
-        $view->with('ordering', self::ORDERING_VALUES);
+        $view->with('ordering', ProductService::ORDERING_VALUES);
 
         return $view;
     }
