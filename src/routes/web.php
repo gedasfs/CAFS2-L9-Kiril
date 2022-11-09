@@ -43,4 +43,4 @@ Route::prefix('/orders')->middleware(['auth', 'verified'])->name('orders.')->gro
     Route::get('/{order}/edit', [Controllers\Orders\OrderController::class, 'edit'])->name('edit');
 });
 
-Route::view('/spa', 'spa');
+Route::view('/spa{any}', 'spa')->where('any', '.*');
