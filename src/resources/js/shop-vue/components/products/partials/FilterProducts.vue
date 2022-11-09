@@ -1,10 +1,19 @@
 <script setup>
-import axios from 'axios';
-import { ref, reactive, onBeforeMount, watch } from 'vue';
+import { ref, reactive, watch } from 'vue';
+
+const props = defineProps({
+	categories: {
+		type: Array,
+		default: []
+	},
+
+	title: String
+});
+
+const emit = defineEmits(['onFilterChange']);
 
 const isRequestInProgress = ref(false);
 
-const categories = ref([]);
 const orderByValues = {
     'created_at' : 'Newest first',
     'name:asc'   : 'Name Accessing',
@@ -21,46 +30,12 @@ const filters = reactive({
 	orderBy: 'created_at'
 });
 
-async function getProducts(facorites  = false) {
-	const urlSearchParams = new URLSearchParams();
-
-	if (filters.categoryId) {
-		urlSearchParams.set('category_id', filters.categoryId);
-	}
-
-	if (filters.search) {
-		urlSearchParams.set('search', filters.search);
-	}
-
-	if (filters.orderBy) {
-		urlSearchParams.set('order_by', filters.orderBy);
-	}
-
-	isRequestInProgress.value = true;
-
-	let response = await axios.get('/api/v1/products?' + urlSearchParams.toString());
-
-	isRequestInProgress.value = false;
-
-	return response.data.data;
-}
-
-onBeforeMount(async () => {
-	let categoriesResponse = await axios.get('/api/v1/products/categories');
-
-	categories.value = categoriesResponse.data.data;
-});
-
 // watch(filters, async (newValue, oldValue) => {
-// 	products.value = await getProducts();
-// });
-
-// watch(filters, (newValue, oldValue) => {
-// 	getProducts().then(p => products.value = p);
+// 	onFiltersSubmit();
 // });
 
 function onFiltersSubmit() {
-	// getProducts().then(p => products.value = p);
+	emit('onFilterChange', filters);
 }
 
 function onFiltersClear() {
@@ -68,12 +43,14 @@ function onFiltersClear() {
 	filters.search = null;
 	filters.orderBy = 'created_at';
 
-	// onFiltersSubmit();
+	onFiltersSubmit();
 }
 </script>
 <template>
 	<div class="row row-cols-lg-auto g-3 align-items-center mb-3">
-		<div class="col-12">
+		<h1 v-if="title">{{ title }}</h1>
+
+		<div class="col-12" v-if="categories.length > 0">
 			<label class="visually-hidden" for="category">Category</label>
 			<select class="form-select" id="category" name="category_id" v-model="filters.categoryId" :disabled="isRequestInProgress">
 				<option value="null">Choose category</option>
@@ -85,6 +62,7 @@ function onFiltersClear() {
 				<span class="input-group-text" id="search">Search</span>
 				<input type="text" class="form-control" placeholder="Enter something..." aria-describedby="search" name="search"  v-model.lazy="filters.search" :disabled="isRequestInProgress">
 			</div>
+			<!-- <FloatingInput title="search" name="search" v-model="filters.search"/> -->
 		</div>
 		<div class="col-12">
 			<label class="visually-hidden" for="order_by">Order By</label>

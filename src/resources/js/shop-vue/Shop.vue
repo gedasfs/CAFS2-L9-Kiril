@@ -1,8 +1,11 @@
 <script setup>
-	import ProductView from './components/products/ProductView.vue';
+	import HeaderView from './components/partials/HeaderView.vue';
+	import FooterView from './components/partials/FooterView.vue';
 </script>
 <template>
 	<div class="container mt-5">
-		<ProductView/>
+		<HeaderView/>
+		<RouterView></RouterView>
+		<FooterView/>
 	</div>
 </template>

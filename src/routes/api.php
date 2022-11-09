@@ -22,5 +22,6 @@ Route::prefix('v1')->group(function() {
     Route::prefix('products')->group(function() {
         Route::get('/', [ApiV1Controllers\Products\ProductController::class, 'index']);
         Route::get('/categories', [ApiV1Controllers\Products\CategoryController::class, 'index']);
+        Route::get('/{product}', [ApiV1Controllers\Products\ProductController::class, 'find']);
     });
 });
