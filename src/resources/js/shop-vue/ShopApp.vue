@@ -3,9 +3,9 @@
 	import FooterView from './components/partials/FooterView.vue';
 </script>
 <template>
-	<div class="container mt-5">
-		<HeaderView/>
-		<RouterView></RouterView>
-		<FooterView/>
-	</div>
+  <div class="container mt-5">
+    <HeaderView />
+    <RouterView />
+    <FooterView />
+  </div>
 </template>

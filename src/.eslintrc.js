@@ -6,5 +6,8 @@ module.exports = {
         'eslint:recommended',
         'plugin:vue/vue3-recommended',
     ],
-    rules: {}
+    rules: {},
+    ignorePatterns: [
+        'bootstrap.js'
+    ]
 }

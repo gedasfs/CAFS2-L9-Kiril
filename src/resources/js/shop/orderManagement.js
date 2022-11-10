@@ -12,7 +12,7 @@ const productsSelectedContainer = document.querySelector('#products-selected');
 const userSelect = document.querySelector('#user-select');
 
 if (orderModal) {
-	document.querySelector('#orderManagement').addEventListener('hidden.bs.modal', event => {
+	document.querySelector('#orderManagement').addEventListener('hidden.bs.modal', () => {
 		userSelect.selectedIndex = 0;
 		productList.selectedIndex = 0;
 		productCount.value = null;
@@ -133,10 +133,10 @@ document.addEventListener('DOMContentLoaded', () => {
 	document.querySelector('#order-save')?.addEventListener('click', function() {
 		let data = {
 			products: [...productsSelectedContainer.children].map((p) => {
-			    return {
-			    	id: +(p.getAttribute('data-product-id')),
-			    	count: +(p.getAttribute('data-product-count')),
-			    }
+				return {
+					id: +(p.getAttribute('data-product-id')),
+					count: +(p.getAttribute('data-product-count')),
+				}
 			}),
 			user_id: +(userSelect.value)
 		};
@@ -152,7 +152,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			url = url + '/' + LOADED_ORDER_ID;
 		}
 
-		axios.post(url, data).then(response => {
+		axios.post(url, data).then(() => {
 			window.location.reload();
 		}).catch(err => {
 			if (err.response.status == 422) {
