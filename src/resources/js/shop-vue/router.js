@@ -1,4 +1,4 @@
-import { createWebHashHistory, createWebHistory, createRouter } from 'vue-router';
+import { createWebHistory, createRouter } from 'vue-router';
 
 import ProductsView from './components/products/ProductsView.vue';
 // import SingleProductView from './components/products/SingleProductView.vue';

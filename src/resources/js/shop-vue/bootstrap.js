@@ -1,4 +1,4 @@
-import * as bootstrap from 'bootstrap';
+import * as bootstrap from 'bootstrap'; // eslint-disable-line
 
 import _ from 'lodash';
 window._ = _;

@@ -2,10 +2,10 @@ import './bootstrap';
 import { createApp } from 'vue';
 import Router from './router';
 
-import Shop from './Shop.vue'
+import ShopApp from './ShopApp.vue'
 import FloatingInput from './components/FloatingInput.vue';
 
-const app = createApp(Shop);
+const app = createApp(ShopApp);
 
 app.use(Router);
 

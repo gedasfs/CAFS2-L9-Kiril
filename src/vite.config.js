@@ -2,6 +2,7 @@ import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
 import path from 'path';
 import vue from '@vitejs/plugin-vue';
+import eslintPlugin from 'vite-plugin-eslint';
 
 export default defineConfig({
     resolve: {
@@ -11,6 +12,8 @@ export default defineConfig({
         }
     },
     plugins: [
+        eslintPlugin(),
+        
         laravel({
             input: [
                 'resources/sass/shop.scss',
