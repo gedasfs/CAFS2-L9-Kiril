@@ -52,4 +52,19 @@ class ProductService
 
         return $products;
     }
+
+    public function save(array $data, Product $product = null): Product
+    {
+        if ($product == null) {
+            $product = new Product();
+        }
+
+        $product->fill($data);
+
+        $product->is_active = true;
+
+        $product->save();
+
+        return $product;
+    }
 }

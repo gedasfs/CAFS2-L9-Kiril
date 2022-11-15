@@ -55,10 +55,16 @@ onBeforeMount(async () => {
       class="col"
     >
       <div class="card mb-4 rounded-3 shadow-sm">
-        <div class="card-header py-3">
+        <div class="card-header py-3 d-flex justify-content-between">
           <h4 class="my-0 fw-normal">
             #{{ product.id }} {{ product.name }}
           </h4>
+          <RouterLink
+            :to="{name: 'products.manage', params: {product: product.id}}"
+            class="btn btn-warning"
+          >
+            Edit
+          </RouterLink>
         </div>
         <div class="card-body">
           <h3>{{ product.description }}</h3>

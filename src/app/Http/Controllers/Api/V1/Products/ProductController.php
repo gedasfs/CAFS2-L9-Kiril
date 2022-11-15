@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Resources\Products\ProductResource;
 use App\Services\ProductService;
 use App\Models\Product;
+use App\Http\Requests\Api\V1\Products\SaveProductRequest;
 
 class ProductController extends Controller
 {
@@ -20,5 +21,16 @@ class ProductController extends Controller
     public function find(Product $product)
     {   
         return new ProductResource($product);
+    }
+
+    public function save(
+        SaveProductRequest $request,
+        ProductService $productService,
+        Product $product = null
+    )
+    {
+        $product = $productService->save($request->validated(), $product);
+
+        return $this->find($product);
     }
 }

@@ -12,9 +12,19 @@
 <template>
   <div
     v-if="product"
-    class="row row-cols-1 row-cols-md-2"
+    class="row"
   >
-    <div class="col">
+    <div class="col-12">
+      <div class="text-end mb-2">
+        <RouterLink
+          :to="{name: 'products.manage', params: {product: product.id}}"
+          class="btn btn-warning"
+        >
+          Edit
+        </RouterLink>
+      </div>
+    </div>
+    <div class="col-12 col-md-6">
       <div
         id="carouselExampleIndicators"
         class="carousel slide"
@@ -147,7 +157,7 @@
         </button>
       </div>
     </div>
-    <div class="col">
+    <div class="col-12 col-md-6">
       <div class="h-100 p-5 bg-light border rounded-3">
         <h2> {{ product.name }}</h2>
         <p> {{ product.description }}</p>
