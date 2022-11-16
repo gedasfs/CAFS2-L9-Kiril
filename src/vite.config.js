@@ -9,6 +9,7 @@ export default defineConfig({
         alias: {
             '~bootstrap': path.resolve(__dirname, 'node_modules/bootstrap'),
             '~toastr': path.resolve(__dirname, 'node_modules/toastr'),
+            '@': path.resolve(__dirname, 'resources/js/shop-vue'),
         }
     },
     plugins: [

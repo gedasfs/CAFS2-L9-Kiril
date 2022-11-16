@@ -19,9 +19,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::prefix('v1')->group(function() {
+    Route::get('/categories', [ApiV1Controllers\Products\CategoryController::class, 'index']);
+    
     Route::prefix('products')->group(function() {
-        Route::get('/categories', [ApiV1Controllers\Products\CategoryController::class, 'index']);
-
         Route::get('/', [ApiV1Controllers\Products\ProductController::class, 'index']);
         Route::get('/{product}', [ApiV1Controllers\Products\ProductController::class, 'find']);
         Route::post('/', [ApiV1Controllers\Products\ProductController::class, 'save']);

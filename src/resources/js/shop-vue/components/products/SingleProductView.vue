@@ -1,27 +1,36 @@
 <script setup>
-	import axios from 'axios';
 	import { ref } from 'vue';
-	import { useRoute } from 'vue-router';
+    import { useRoute } from 'vue-router';
+    import { useProductStore } from '@/stores/product.js';
+    import ManageProductView from './ManageProductView.vue';
 
-	const product = ref(null);
+	const productStore = useProductStore();
 
     const route = useRoute();
 
-    axios.get(`/api/v1/products/${route?.params?.product}`).then(response => product.value = response.data.data);
+    const showModal = ref(false);
+
+    productStore.find(route?.params?.product)
 </script>
 <template>
   <div
-    v-if="product"
+    v-if="productStore.id"
     class="row"
   >
     <div class="col-12">
       <div class="text-end mb-2">
         <RouterLink
-          :to="{name: 'products.manage', params: {product: product.id}}"
-          class="btn btn-warning"
+          :to="{name: 'products.manage', params: {product: productStore.id}}"
+          class="btn btn-warning me-2"
         >
           Edit
         </RouterLink>
+        <button
+          class="btn btn-danger"
+          @click="showModal = true"
+        >
+          Edit Now
+        </button>
       </div>
     </div>
     <div class="col-12 col-md-6">
@@ -159,9 +168,15 @@
     </div>
     <div class="col-12 col-md-6">
       <div class="h-100 p-5 bg-light border rounded-3">
-        <h2> {{ product.name }}</h2>
-        <p> {{ product.description }}</p>
+        <h2> {{ productStore.name }}</h2>
+        <p> {{ productStore.description }}</p>
       </div>
     </div>
   </div>
+  <BootstrapModal
+    :show-modal="showModal"
+    @onBootstrapModalClose="showModal = false"
+  >
+    <ManageProductView />
+  </BootstrapModal>
 </template>

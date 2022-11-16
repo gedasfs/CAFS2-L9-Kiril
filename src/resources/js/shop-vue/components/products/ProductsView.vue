@@ -1,11 +1,13 @@
 <script setup>
 import FilterProducts from './partials/FilterProducts.vue';
 
+import { useCategoriesStore } from '@/stores/categories.js';
 import axios from 'axios';
 import { ref, onBeforeMount} from 'vue';
 
 const products = ref([]);
-const productCategories = ref([]);
+
+const categoriesStore = useCategoriesStore();
 
 async function getProducts(filters = {}) {
 	const urlSearchParams = new URLSearchParams();
@@ -31,17 +33,15 @@ function loadProducts(filters = {}) {
 	getProducts(filters).then(_products => products.value = _products);
 }
 
-onBeforeMount(async () => {
-	let categoriesResponse = await axios.get('/api/v1/products/categories');
-	
-	productCategories.value = categoriesResponse.data.data;
+onBeforeMount(() => {
+  categoriesStore.load();
 
 	loadProducts();
 });
 </script>
 <template>
   <FilterProducts
-    :categories="productCategories"
+    :categories="categoriesStore.categories"
     title="Filters:"
     @on-filter-change="loadProducts"
   />

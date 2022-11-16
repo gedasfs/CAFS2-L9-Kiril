@@ -1,66 +1,33 @@
 <script setup>
-import axios from 'axios';
-import { reactive, onBeforeMount, toRaw } from 'vue';
+import { onBeforeMount } from 'vue';
 import { useRouter, useRoute, onBeforeRouteUpdate } from 'vue-router';
+import { useCategoriesStore } from '@/stores/categories.js';
+import { useProductStore } from '@/stores/product.js';
 
-function getInitialProductState() {
-    return {
-        id: null,
-        name: null,
-        description: null,
-        category: {
-            id: null
-        },
-        identifier: null
-    };
-}
-
-const product = reactive(getInitialProductState());
-
-const productCategories = reactive([]);
+const productStore = useProductStore();
+const categoriesStore = useCategoriesStore();
 
 const router = useRouter();
 const route = useRoute();
 
 onBeforeMount(async () => {
-    let categoriesResponse = await axios.get('/api/v1/products/categories');
+    categoriesStore.load();
     
-    Object.assign(productCategories, categoriesResponse.data.data)
-
     if (route?.params?.product) {
-        axios.get(`/api/v1/products/${route?.params?.product}`).then(response => Object.assign(product, response.data.data)
-        );
+        productStore.find(route.params.product);
     }
 });
 
 onBeforeRouteUpdate(async () => {
-    Object.assign(product, getInitialProductState());
+    productStore.$reset();
 });
 
 function onSaveButtonClick() {
-    const productRaw = toRaw(product);
-
-    let url = '/api/v1/products';
-
-    if (productRaw.id) {
-        url += '/' + productRaw.id;
-    }
-
-    if (productRaw.category?.id) {
-        productRaw.category_id = productRaw.category.id;
-
-        delete productRaw.category;
-    }
-
-    axios({
-        method: productRaw.id ? 'patch' : 'post',
-        url: url,
-        data: productRaw
-    }).then(response => {
+    productStore.save().then(() => {
         router.push({
             name: 'products.view',
             params: {
-                product: response.data.data.id
+                product: productStore.id
             }
         });
     });
@@ -69,7 +36,7 @@ function onSaveButtonClick() {
 <template>
   <div>
     <FloatingInput
-      v-model="product.name"
+      v-model="productStore.name"
       title="Product name"
       name="name"
       type="text"
@@ -82,7 +49,7 @@ function onSaveButtonClick() {
     >
       <textarea
         :id="id"
-        v-model="product.description"
+        v-model="productStore.description"
         placeholder="Product description"
         class="form-control"
         style="height: 100px"
@@ -96,14 +63,14 @@ function onSaveButtonClick() {
     >
       <select
         :id="id"
-        v-model="product.category.id"
+        v-model="productStore.category.id"
         class="form-select"
       >
         <option value="null">
           Choose category
         </option>
         <option
-          v-for="category in productCategories"
+          v-for="category in categoriesStore.categories"
           :key="`cat-${category.id}`"
           :value="category.id"
         >
@@ -113,7 +80,7 @@ function onSaveButtonClick() {
     </FloatingElement>
 
     <FloatingInput
-      v-model="product.identifier"
+      v-model="productStore.identifier"
       title="Product identifier"
       name="identifier"
       type="text"
