@@ -36,6 +36,12 @@ services:
     ports:
         - 3307:3306
 
+  mariadb-test:
+    container_name: ca-l9-mariadb-test
+    image: mariadb:10.9
+    env_file:
+        - ./.env
+
   mailhog:
     image: mailhog/mailhog:v1.0.1
     ports:

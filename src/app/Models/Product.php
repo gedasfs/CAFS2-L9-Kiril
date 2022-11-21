@@ -15,7 +15,9 @@ class Product extends Model
         'name',
         'description',
         'category_id',
-        'identifier'
+        'identifier',
+        'stock',
+        'price'
     ];
 
     // https://laravel.com/docs/9.x/eloquent-relationships#one-to-one-defining-the-inverse-of-the-relationship
